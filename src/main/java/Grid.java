@@ -1,3 +1,8 @@
+import lombok.Getter;
+
+import java.util.Random;
+
+@Getter
 public class Grid {
   private char[][] grid;
   private int rows;
@@ -7,18 +12,26 @@ public class Grid {
     this.rows = rows;
     this.cols = cols;
     this.grid = new char[rows][cols];
-    initializeGrid();
+    initializeGrid(5);
   }
 
-  public void initializeGrid() {
+  public void initializeGrid(int junkCount) {
     for (int i = 0; i < rows; i++)
       for (int j = 0; j < cols; j++)
         grid[i][j] = '.';
 
-    // Ajout de quelques débris (junk 'J') pour le test
-    grid[1][1] = 'J';
-    grid[2][3] = 'J';
-    grid[0][2] = 'J';
+    Random rand = new Random();
+    int placed = 0;
+
+    while (placed < junkCount) {
+      int r = rand.nextInt(rows);
+      int c = rand.nextInt(cols);
+
+      if (grid[r][c] == '.' && !(r == 0 && c == 0)) {
+        grid[r][c] = 'J';
+        placed++;
+      }
+    }
   }
 
   public void updatePosition(Position oldPos, Position newPos) {
@@ -52,7 +65,4 @@ public class Grid {
       System.out.println();
     }
   }
-
-  public int getRows() { return rows; }
-  public int getCols() { return cols; }
 }
