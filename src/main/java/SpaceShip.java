@@ -1,12 +1,11 @@
+import lombok.Getter;
+
+@Getter
 public class SpaceShip {
   private Position position;
 
   public SpaceShip(int row, int col) {
     this.position = new Position(row, col);
-  }
-
-  public Position getPosition() {
-    return position;
   }
 
   public void move(String direction, int gridRows, int gridCols) {

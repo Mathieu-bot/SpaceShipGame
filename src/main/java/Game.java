@@ -7,7 +7,7 @@ public class Game {
 
   public Game(int rows, int cols, int maxMoves) {
     this.grid = new Grid(rows, cols);
-    this.spaceship = new SpaceShip(0, 0); // Position initiale
+    this.spaceship = new SpaceShip(0, 0);
     this.maxMoves = maxMoves;
     grid.placeSpaceShip(spaceship.getPosition());
   }
@@ -19,14 +19,14 @@ public class Game {
     while (moveCount < maxMoves) {
       grid.printGrid();
       System.out.print("Enter move (U/D/L/R): ");
-      String direction = scanner.nextLine();
+      String direction = scanner.nextLine().trim().toUpperCase();
 
       Position oldPos = new Position(spaceship.getPosition().row, spaceship.getPosition().col);
       spaceship.move(direction, grid.getRows(), grid.getCols());
       Position newPos = spaceship.getPosition();
 
       if (oldPos.row == newPos.row && oldPos.col == newPos.col) {
-        System.out.println("❌ Move invalid or out of bounds.");
+        System.out.println("Move invalid or out of bounds.");
         continue;
       }
 
@@ -35,17 +35,16 @@ public class Game {
       }
 
       grid.updatePosition(oldPos, newPos);
-
       moveCount++;
+      System.out.println("Move count: " + moveCount + "/" + maxMoves);
 
       if (grid.countJunks() == 0) {
-        System.out.println("Victory! All junks have been crushed!");
         grid.printGrid();
+        System.out.println("Victory! All junks have been crushed!");
         return;
       }
     }
 
     System.out.println("Game Over! Out of moves.");
-    grid.printGrid();
   }
 }
